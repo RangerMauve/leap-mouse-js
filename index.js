@@ -4,7 +4,7 @@ const robot = require('robotjs')
 robot.setMouseDelay(0)
 
 const PINCH_SENSITIVITY = 0.8
-const PINCH_HOLD_TIME = 500
+const PINCH_HOLD_TIME = 1000
 
 let lastPos = [0, 0, 0]
 let pinch = false
