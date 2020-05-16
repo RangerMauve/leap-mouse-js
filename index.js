@@ -4,9 +4,13 @@ const robot = require('robotjs')
 robot.setMouseDelay(0)
 
 const PINCH_SENSITIVITY = 0.8
+const PINCH_HOLD_TIME = 500
 
 let lastPos = [0, 0, 0]
 let pinch = false
+let holdStart = 0
+let pinchHold = false
+let isAlt = false
 
 Leap.loop((frame) => {
   try {
@@ -16,22 +20,33 @@ Leap.loop((frame) => {
       lastPos = [0, 0, 0]
       if (pinch) onRelease()
       pinch = false
+      pinchHold = false
       return
     }
 
-    const { pinchStrength, palmPosition } = hand
+    const { pinchStrength, stabilizedPalmPosition } = hand
+    const roll = hand.roll()
+
+    isAlt = Math.abs(roll) > 1
 
     const isPinching = pinchStrength >= PINCH_SENSITIVITY
 
     const justPinched = !pinch && isPinching
     const justReleased = pinch && !isPinching
 
-    pinch = isPinching
+    const pinchTime = Date.now() - holdStart
+
+    const isHolding = isPinching && (pinchTime >= PINCH_HOLD_TIME)
+    const justHolding = !pinchHold && isHolding
 
     if (justPinched) onPinch()
     if (justReleased) onRelease()
+    if (justHolding) onPinchHold()
 
-    const tip = palmPosition
+    pinchHold = isHolding
+    pinch = isPinching
+
+    const tip = stabilizedPalmPosition
 
     const normalized = interactionBox.normalizePoint(tip, true)
 
@@ -45,12 +60,23 @@ Leap.loop((frame) => {
 
 function onPinch () {
   console.log('Pinched')
-  robot.mouseToggle('down')
+  holdStart = Date.now()
 }
 
 function onRelease () {
-  console.log('Released')
-  robot.mouseToggle('up')
+  console.log('Released', pinchHold)
+  const button = isAlt ? 'right' : 'left'
+  if (pinchHold) {
+    robot.mouseToggle('up', button)
+  } else {
+    robot.mouseClick(button)
+  }
+}
+
+function onPinchHold () {
+  console.log('Holding Pinch')
+  const button = isAlt ? 'right' : 'left'
+  robot.mouseToggle('down', button)
 }
 
 setInterval(() => {

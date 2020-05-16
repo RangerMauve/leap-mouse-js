@@ -17,4 +17,8 @@ node index.js
 - Normalize to [0-1]
 - Multiply x and y by width and height of screen
 - Set the mouse position using robot JS on each frame
-- Detect pinching (0.8 threshold) for mouse down and release
+- Detect pinching (0.8 threshold)
+- Holding pinch > 500ms is mouse down
+- Releasing pinch after hold is mouse up
+- Quickly pinching and releasing is a regular click
+- Hold your palm horizontally when pinching for left mouse, vertically for right mouse
