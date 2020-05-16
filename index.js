@@ -9,7 +9,6 @@ let lastPos = [0, 0, 0]
 let pinch = false
 
 Leap.loop((frame) => {
-	console.log(frame)
   try {
     const { interactionBox, hands } = frame
     const [hand] = hands
