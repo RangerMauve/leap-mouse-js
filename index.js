@@ -11,6 +11,7 @@ let pinch = false
 let holdStart = 0
 let pinchHold = false
 let isAlt = false
+let pinchAlt = false
 
 Leap.loop((frame) => {
   try {
@@ -60,12 +61,13 @@ Leap.loop((frame) => {
 
 function onPinch () {
   console.log('Pinched')
+  pinchAlt = isAlt
   holdStart = Date.now()
 }
 
 function onRelease () {
   console.log('Released', pinchHold)
-  const button = isAlt ? 'right' : 'left'
+  const button = pinchAlt ? 'right' : 'left'
   if (pinchHold) {
     robot.mouseToggle('up', button)
   } else {
@@ -75,7 +77,7 @@ function onRelease () {
 
 function onPinchHold () {
   console.log('Holding Pinch')
-  const button = isAlt ? 'right' : 'left'
+  const button = pinchAlt ? 'right' : 'left'
   robot.mouseToggle('down', button)
 }
 
