@@ -1,0 +1,29 @@
+{
+  "name": "leap-mouse",
+  "version": "1.0.0",
+  "description": "Control mouse with a Leapmotion and Robo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RangerMauve/leap-mouse-js.git"
+  },
+  "keywords": [
+    "leapmotion",
+    "mouse",
+    "remote",
+    "control"
+  ],
+  "author": "rangermauve <ranger@mauve.moe> (https://mauve.moe/)",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/RangerMauve/leap-mouse-js/issues"
+  },
+  "homepage": "https://github.com/RangerMauve/leap-mouse-js#readme",
+  "dependencies": {
+    "leapjs": "^0.6.4",
+    "robotjs": "^0.6.0"
+  }
+}
