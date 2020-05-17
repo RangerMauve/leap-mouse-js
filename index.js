@@ -54,6 +54,17 @@ Leap.loop((frame) => {
     // console.log(normalized)
 
     lastPos = normalized
+
+    const { width, height } = robot.getScreenSize()
+
+    const [tipX, tipY] = lastPos
+
+    if (!tipX || !tipY) return
+
+    const x = width * tipX
+    const y = height * (1 - tipY)
+
+    robot.moveMouse(x, y)
   } catch (e) {
     console.log(e.stack)
   }
@@ -80,16 +91,3 @@ function onPinchHold () {
   const button = pinchAlt ? 'right' : 'left'
   robot.mouseToggle('down', button)
 }
-
-setInterval(() => {
-  const { width, height } = robot.getScreenSize()
-
-  const [tipX, tipY] = lastPos
-
-  if (!tipX || !tipY) return
-
-  const x = width * tipX
-  const y = height * (1 - tipY)
-
-  robot.moveMouse(x, y)
-}, 10)
